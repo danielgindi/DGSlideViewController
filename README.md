@@ -13,7 +13,7 @@ This is a sliding view controller for iOS, with support for:
 * Ready-made gesture recognizers (tap and pan)!
 
 This was originally in my other repository https://github.com/danielgindi/drunken-danger-zone/,
-But I've finally decided to seperate certain classes to separate repositories - and the major rewriting of this class was a great chance to do that!
+But I've finally decided to separate certain classes to separate repositories - and the major rewriting of this class was a great chance to do that!
 
 ## Me
 * Hi! I am Daniel Cohen Gindi. Or in short- Daniel.
