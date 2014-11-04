@@ -10,7 +10,8 @@ This is a sliding view controller for iOS, with support for:
 * Simple accessors for changing the front view controller (with or without animation)
 * Simple methods to slide in or out
 * Bounces all the way to hide the current front view controller while switching to another one - this effect gives a smoother animation than other solutions
-* Ready-made gesture recognizers (tap and pan)!
+* Ready-made gesture recognizer actions (tap and pan)! Just point your gesture recognizers to these selectors.
+* Status bar style handles automatically based on the visible view controller, with an option for forcing a specific status bar style. (This is all relevant only when you are in view-controller-based-status-bar mode)
 
 This was originally in my other repository https://github.com/danielgindi/drunken-danger-zone/,
 But I've finally decided to separate certain classes to separate repositories - and the major rewriting of this class was a great chance to do that!
