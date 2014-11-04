@@ -69,6 +69,9 @@
     _frontShadowRadius = 10.f;
     _frontShadowOffset = CGSizeMake(-10.f, 0.f);
     
+    _defaultStatusBarStyle = UIStatusBarStyleDefault;
+    _defaultStatusBarUpdateAnimation = UIStatusBarAnimationFade;
+    
     _tapShieldView = [[UIView alloc] init];
 
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognized:)];
@@ -115,6 +118,8 @@
             _frontViewController.view.frame = self.view.bounds;
             [_backViewController didMoveToParentViewController:self];
         }
+        
+        [self setNeedsStatusBarAppearanceUpdate];
     }
     return self;
 }
@@ -148,6 +153,24 @@
             [self applyClosedFrontPositionToView:_frontViewController.view];
     }
     }
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    if (_forceStatusBarStyle)
+    {
+        return _defaultStatusBarStyle;
+    }
+    return _isOpen ? (_frontViewController ? _frontViewController.preferredStatusBarStyle : (_backViewController ? _backViewController.preferredStatusBarStyle : _defaultStatusBarStyle)) : (_backViewController ? _backViewController.preferredStatusBarStyle : (_frontViewController ? _frontViewController.preferredStatusBarStyle : _defaultStatusBarStyle));
+}
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation
+{
+    if (_forceStatusBarUpdateAnimation)
+    {
+        return _defaultStatusBarUpdateAnimation;
+    }
+    return _isOpen ? (_frontViewController ? _frontViewController.preferredStatusBarStyle : (_backViewController ? _backViewController.preferredStatusBarUpdateAnimation : _defaultStatusBarStyle)) : (_backViewController ? _backViewController.preferredStatusBarUpdateAnimation : (_frontViewController ? _frontViewController.preferredStatusBarUpdateAnimation : _defaultStatusBarStyle));
 }
 
 #pragma mark Property accessors
@@ -184,6 +207,8 @@
             oldViewController.view.alpha = 0.f;
             backViewController.view.alpha = newBackAlpha;
             
+            [self setNeedsStatusBarAppearanceUpdate];
+            
         } completion:^(BOOL finished) {
             
             [oldViewController.view removeFromSuperview];
@@ -211,6 +236,8 @@
         [self.view insertSubview:_backViewController.view atIndex:0];
         _backViewController.view.frame = self.view.bounds;
         [_backViewController didMoveToParentViewController:self];
+        
+        [self setNeedsStatusBarAppearanceUpdate];
     }
 }
 
@@ -269,6 +296,8 @@
                 
                 [self applyClosedFrontPositionToView:frontViewController.view];
                 
+                [self setNeedsStatusBarAppearanceUpdate];
+                
             } completion:^(BOOL finished) {
                 
                 _isOpen = NO;
@@ -304,6 +333,8 @@
                 [self addChildViewController:_frontViewController];
                 [self.view addSubview:_frontViewController.view];
             }
+            
+            [self setNeedsStatusBarAppearanceUpdate];
             
             if (_isOpen)
             {

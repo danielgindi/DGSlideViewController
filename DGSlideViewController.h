@@ -48,6 +48,12 @@
 @property (nonatomic, assign) UI_APPEARANCE_SELECTOR CGSize frontShadowOffset;
 @property (nonatomic, assign) UI_APPEARANCE_SELECTOR CGFloat frontShadowRadius;
 
+@property (nonatomic, assign) UIStatusBarStyle defaultStatusBarStyle;
+@property (nonatomic, assign) BOOL forceStatusBarStyle;
+
+@property (nonatomic, assign) UIStatusBarAnimation defaultStatusBarUpdateAnimation;
+@property (nonatomic, assign) BOOL forceStatusBarUpdateAnimation;
+
 @property (nonatomic, assign) BOOL isOnTheRight;
 
 @property (nonatomic, assign, readonly) BOOL isOpen;
