@@ -256,10 +256,14 @@
             }
             
             _frontViewController = frontViewController;
-            [self addChildViewController:frontViewController];
-            [self.view addSubview:frontViewController.view];
-            [self applyOpenOverFrontPositionToView:frontViewController.view];
-            [self setupShadowForView:frontViewController.view];
+            
+            if (frontViewController)
+            {
+                [self addChildViewController:frontViewController];
+                [self.view addSubview:frontViewController.view];
+                [self applyOpenOverFrontPositionToView:frontViewController.view];
+                [self setupShadowForView:frontViewController.view];
+            }
             
             [UIView animateWithDuration:_closeAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
                 
@@ -295,8 +299,12 @@
             }
             
             _frontViewController = frontViewController;
-            [self addChildViewController:_frontViewController];
-            [self.view addSubview:_frontViewController.view];
+            if (_frontViewController)
+            {
+                [self addChildViewController:_frontViewController];
+                [self.view addSubview:_frontViewController.view];
+            }
+            
             if (_isOpen)
             {
                 [self applyOpenFrontPositionToView:_frontViewController.view];
@@ -305,6 +313,7 @@
             {
                 [self applyClosedFrontPositionToView:_frontViewController.view];
             }
+            
             [self setupShadowForView:_frontViewController.view];
             [_frontViewController didMoveToParentViewController:self];
         }
