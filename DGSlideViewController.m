@@ -476,7 +476,6 @@
     }
     
     CGRect bounds = self.view.bounds;
-    CGRect movingFrame = movingView.frame;
     
     if (state == UIGestureRecognizerStateBegan ||
         state == UIGestureRecognizerStateChanged ||
@@ -484,6 +483,7 @@
     {
         CGPoint translation = [gesture translationInView:panningView];
         
+        CGRect movingFrame = movingView.frame;
         CGFloat untransformedOriginX = movingFrame.origin.x - (movingView.bounds.size.width - movingFrame.size.width) * movingView.layer.anchorPoint.x;
         
         CGFloat closePosition = [self closePositionForBounds:&bounds];
@@ -491,11 +491,12 @@
         if ((_isOnTheRight && untransformedOriginX + translation.x > closePosition) ||
             (!_isOnTheRight && untransformedOriginX + translation.x < closePosition))
         {
-            translation.x = closePosition;
+            translation.x = untransformedOriginX - closePosition;
         }
         
-        movingFrame.origin.x += translation.x;
-        movingView.frame = movingFrame;
+        CGPoint movingCenter = movingView.center;
+        movingCenter.x += translation.x;
+        movingView.center = movingCenter;
         
         CGFloat openPosition = [self openPositionForBounds:&bounds];
         CGFloat openAmount = untransformedOriginX / (openPosition - closePosition);
@@ -514,7 +515,8 @@
     {
         CGSize size = bounds.size;
         
-        CGFloat untransformedOriginX = movingFrame.origin.x - (movingView.bounds.size.width - movingFrame.size.width) * movingView.layer.anchorPoint.x;
+        CGRect movingFrame = movingView.frame;
+        CGFloat originX = movingFrame.origin.x - (movingView.bounds.size.width - movingFrame.size.width) * movingView.layer.anchorPoint.x;
         
         CGFloat velocity = [gesture velocityInView:panningView].x;
         
@@ -535,7 +537,7 @@
         }
         
         CGFloat targetX = shouldOpen ? [self openPositionForBounds:&bounds] : [self closePositionForBounds:&bounds];
-        CGFloat distanceToTravel = fabsf(targetX - untransformedOriginX);
+        CGFloat distanceToTravel = fabsf(targetX - originX);
         NSTimeInterval durationForTheRestOfTheAnimation = distanceToTravel == 0.f ? 0.0 : ( distanceToTravel / fabsf(velocity));
         NSTimeInterval maxDuration = shouldOpen ? _openAnimationDuration : _closeAnimationDuration;
         
