@@ -170,7 +170,8 @@
     {
         return _defaultStatusBarUpdateAnimation;
     }
-    return _isOpen ? (_frontViewController ? _frontViewController.preferredStatusBarStyle : (_backViewController ? _backViewController.preferredStatusBarUpdateAnimation : _defaultStatusBarStyle)) : (_backViewController ? _backViewController.preferredStatusBarUpdateAnimation : (_frontViewController ? _frontViewController.preferredStatusBarUpdateAnimation : _defaultStatusBarStyle));
+
+    return _isOpen ? (_frontViewController ? _frontViewController.preferredStatusBarUpdateAnimation : (_backViewController ? _backViewController.preferredStatusBarUpdateAnimation : _defaultStatusBarUpdateAnimation)) : (_backViewController ? _backViewController.preferredStatusBarUpdateAnimation : (_frontViewController ? _frontViewController.preferredStatusBarUpdateAnimation : _defaultStatusBarUpdateAnimation));
 }
 
 #pragma mark Property accessors
