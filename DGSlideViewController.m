@@ -151,7 +151,7 @@
         else
         {
             [self applyClosedFrontPositionToView:_frontViewController.view];
-    }
+        }
     }
 }
 
