@@ -48,11 +48,40 @@
 @property (nonatomic, assign) UI_APPEARANCE_SELECTOR CGSize frontShadowOffset;
 @property (nonatomic, assign) UI_APPEARANCE_SELECTOR CGFloat frontShadowRadius;
 
+/*! 
+ @property defaultStatusBarStyle
+ @brief Default status bar style for when showing back or front but the relevant view controller is not set */
 @property (nonatomic, assign) UIStatusBarStyle defaultStatusBarStyle;
-@property (nonatomic, assign) BOOL forceStatusBarStyle;
 
+/*!
+ @property defaultStatusBarUpdateAnimation
+ @brief Default status bar update animation for when showing back or front but the relevant view controller is not set */
 @property (nonatomic, assign) UIStatusBarAnimation defaultStatusBarUpdateAnimation;
-@property (nonatomic, assign) BOOL forceStatusBarUpdateAnimation;
+
+/*!
+ @property defaultStatusBarHidden
+ @brief Default status bar hidden value for when showing back or front but the relevant view controller is not set */
+@property (nonatomic, assign) BOOL defaultStatusBarHidden;
+
+/*!
+ @property forceStatusBarStyle
+ @brief Force a status bar style. Depends on forceStatusBarAttributes */
+@property (nonatomic, assign) UIStatusBarStyle forceStatusBarStyle;
+
+/*!
+ @property forceStatusBarUpdateAnimation
+ @brief Force a status bar update animation. Depends on forceStatusBarAttributes */
+@property (nonatomic, assign) UIStatusBarAnimation forceStatusBarUpdateAnimation;
+
+/*!
+ @property forceStatusBarHidden
+ @brief Force a status bar hidden. Depends on forceStatusBarAttributes */
+@property (nonatomic, assign) BOOL forceStatusBarHidden;
+/*!
+ @property forceStatusBarAttributes
+ @brief Toggles forcing the status bar attributes.
+ Default: NO*/
+@property (nonatomic, assign) BOOL forceStatusBarAttributes;
 
 @property (nonatomic, assign) BOOL isOnTheRight;
 

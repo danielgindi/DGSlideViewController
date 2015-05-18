@@ -155,23 +155,48 @@
     }
 }
 
+- (UIViewController *)childViewControllerForStatusBarStyle
+{
+    if (_forceStatusBarAttributes) return nil;
+    
+    return _isOpen ? _backViewController : _frontViewController;
+}
+
+- (UIViewController *)childViewControllerForStatusBarHidden
+{
+    if (_forceStatusBarAttributes) return nil;
+    
+    return _isOpen ? _backViewController : _frontViewController;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    if (_forceStatusBarAttributes)
+    {
+        return _forceStatusBarHidden;
+    }
+    
+    return _defaultStatusBarHidden;
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-    if (_forceStatusBarStyle)
+    if (_forceStatusBarAttributes)
     {
-        return _defaultStatusBarStyle;
+        return _forceStatusBarStyle;
     }
-    return _isOpen ? (_frontViewController ? _frontViewController.preferredStatusBarStyle : (_backViewController ? _backViewController.preferredStatusBarStyle : _defaultStatusBarStyle)) : (_backViewController ? _backViewController.preferredStatusBarStyle : (_frontViewController ? _frontViewController.preferredStatusBarStyle : _defaultStatusBarStyle));
+    
+    return _defaultStatusBarStyle;
 }
 
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation
 {
-    if (_forceStatusBarUpdateAnimation)
+    if (_forceStatusBarAttributes)
     {
-        return _defaultStatusBarUpdateAnimation;
+        return _forceStatusBarUpdateAnimation;
     }
-
-    return _isOpen ? (_frontViewController ? _frontViewController.preferredStatusBarUpdateAnimation : (_backViewController ? _backViewController.preferredStatusBarUpdateAnimation : _defaultStatusBarUpdateAnimation)) : (_backViewController ? _backViewController.preferredStatusBarUpdateAnimation : (_frontViewController ? _frontViewController.preferredStatusBarUpdateAnimation : _defaultStatusBarUpdateAnimation));
+    
+    return _defaultStatusBarUpdateAnimation;
 }
 
 #pragma mark Property accessors
@@ -538,8 +563,8 @@
         }
         
         CGFloat targetX = shouldOpen ? [self openPositionForBounds:&bounds] : [self closePositionForBounds:&bounds];
-        CGFloat distanceToTravel = fabsf(targetX - originX);
-        NSTimeInterval durationForTheRestOfTheAnimation = distanceToTravel == 0.f ? 0.0 : ( distanceToTravel / fabsf(velocity));
+        CGFloat distanceToTravel = fabs(targetX - originX);
+        NSTimeInterval durationForTheRestOfTheAnimation = distanceToTravel == 0.f ? 0.0 : ( distanceToTravel / fabs(velocity));
         NSTimeInterval maxDuration = shouldOpen ? _openAnimationDuration : _closeAnimationDuration;
         
         if (durationForTheRestOfTheAnimation > maxDuration)
@@ -581,6 +606,7 @@
         
         _isAnimating = YES;
         [self applyOpenFrontPositionToView:_frontViewController.view];
+        [self setNeedsStatusBarAppearanceUpdate];
         
     };
     
@@ -636,6 +662,7 @@
         
         _isAnimating = YES;
         [self applyClosedFrontPositionToView:_frontViewController.view];
+        [self setNeedsStatusBarAppearanceUpdate];
         
     };
     
