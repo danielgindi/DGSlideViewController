@@ -503,6 +503,12 @@
     
     CGRect bounds = self.view.bounds;
     
+    if (state == UIGestureRecognizerStateBegan)
+    {
+        // Dismiss keyboard
+        [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    }
+    
     if (state == UIGestureRecognizerStateBegan ||
         state == UIGestureRecognizerStateChanged ||
         state == UIGestureRecognizerStateEnded)
@@ -598,6 +604,9 @@
         
         return;
     }
+    
+    // Dismiss keyboard
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     
     _isOpen = YES;
     [self setupShadowForView:_frontViewController.view];
