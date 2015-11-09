@@ -100,26 +100,15 @@
     {
         [self DGSlideViewController_initialize];
         
-        _backViewController = backViewController;
-        _frontViewController = frontViewController;
-        
-        if (_backViewController)
+        if (backViewController)
         {
-            [self addChildViewController:_backViewController];
-            [self.view addSubview:_backViewController.view];
-            _backViewController.view.frame = self.view.bounds;
-            [_backViewController didMoveToParentViewController:self];
+            [self setBackViewController:backViewController animated:NO];
         }
         
-        if (_frontViewController)
+        if (frontViewController)
         {
-            [self addChildViewController:_backViewController];
-            [self.view addSubview:_backViewController.view];
-            _frontViewController.view.frame = self.view.bounds;
-            [_backViewController didMoveToParentViewController:self];
+            [self setFrontViewController:frontViewController animated:NO];
         }
-        
-        [self setNeedsStatusBarAppearanceUpdate];
     }
     return self;
 }
