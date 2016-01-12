@@ -32,6 +32,19 @@
 
 #import <UIKit/UIKit.h>
 
+@class DGSlideViewController;
+
+@protocol DGSlideViewControllerDelegate <NSObject>
+
+@optional
+- (void)slideViewController:(DGSlideViewController *)controller willStartPanningFromOpenMode:(BOOL)isOpen;
+- (void)slideViewController:(DGSlideViewController *)controller willOpenWithDuration:(NSTimeInterval)duration;
+- (void)slideViewController:(DGSlideViewController *)controller willCloseWithDuration:(NSTimeInterval)duration;
+- (void)slideViewControllerDidOpen:(DGSlideViewController *)controller;
+- (void)slideViewControllerDidClose:(DGSlideViewController *)controller;
+
+@end
+
 @interface DGSlideViewController : UIViewController
 
 @property (nonatomic, strong) IBOutlet UIViewController *backViewController;
@@ -77,11 +90,14 @@
  @property forceStatusBarHidden
  @brief Force a status bar hidden. Depends on forceStatusBarAttributes */
 @property (nonatomic, assign) BOOL forceStatusBarHidden;
+
 /*!
  @property forceStatusBarAttributes
  @brief Toggles forcing the status bar attributes.
  Default: NO*/
 @property (nonatomic, assign) BOOL forceStatusBarAttributes;
+
+@property (nonatomic, weak) id <DGSlideViewControllerDelegate> delegate;
 
 @property (nonatomic, assign) BOOL isOnTheRight;
 
