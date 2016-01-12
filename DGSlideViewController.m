@@ -502,6 +502,14 @@
         state == UIGestureRecognizerStateChanged ||
         state == UIGestureRecognizerStateEnded)
     {
+        if (state == UIGestureRecognizerStateBegan)
+        {
+            if ([self.delegate respondsToSelector:@selector(slideViewController:willStartPanningFromOpenMode:)])
+            {
+                [self.delegate slideViewController:self willStartPanningFromOpenMode:self.isOpen];
+            }
+        }
+        
         CGPoint translation = [gesture translationInView:panningView];
         
         CGRect movingFrame = movingView.frame;
@@ -594,6 +602,11 @@
         return;
     }
     
+    if ([self.delegate respondsToSelector:@selector(slideViewController:willOpenWithDuration:)])
+    {
+        [self.delegate slideViewController:self willOpenWithDuration:duration];
+    }
+    
     // Dismiss keyboard
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     
@@ -615,11 +628,15 @@
         // Shield the front view from taps inside, and instead catch all taps to slide it back
         [self setupShieldForView:_frontViewController.view];
         
+        if ([self.delegate respondsToSelector:@selector(slideViewControllerDidOpen:)])
+        {
+            [self.delegate slideViewControllerDidOpen:self];
+        }
+        
         if (completionBlock)
         {
             completionBlock();
         }
-        
     };
     
     if (duration <= 0.0)
@@ -649,6 +666,11 @@
         
         return;
     }
+        
+    if ([self.delegate respondsToSelector:@selector(slideViewController:willCloseWithDuration:)])
+    {
+        [self.delegate slideViewController:self willCloseWithDuration:duration];
+    }
     
     _isOpen = NO;
     
@@ -668,13 +690,17 @@
         
         _isAnimating = NO;
         
+        if ([self.delegate respondsToSelector:@selector(slideViewControllerDidClose:)])
+        {
+            [self.delegate slideViewControllerDidClose:self];
+        }
+        
         [self removeShadowForView:_frontViewController.view];
         
         if (completionBlock)
         {
             completionBlock();
         }
-        
     };
     
     if (duration <= 0.0)
