@@ -2,7 +2,6 @@
 //  DGSlideViewController.m
 //  DGSlideViewController
 //
-//  Created by Daniel Cohen Gindi on 10/12/14.
 //  Copyright (c) 2012 danielgindi@gmail.com. All rights reserved.
 //
 //  https://github.com/danielgindi/DGSlideViewController
@@ -42,7 +41,6 @@
     UIViewController *_backViewController;
     UIViewController *_frontViewController;
     
-    BOOL _isIos7OrLater;
     BOOL _isOpen, _isAnimating, _isDragging;
     
     UIView *_tapShieldView;
@@ -52,8 +50,6 @@
 
 - (void)DGSlideViewController_initialize
 {
-    _isIos7OrLater = [UIDevice.currentDevice.systemVersion compare:@"7.0" options:NSNumericSearch] >= NSOrderedSame;
-    
     _isOpen = NO;
     _isAnimating = NO;
     _isDragging = NO;
